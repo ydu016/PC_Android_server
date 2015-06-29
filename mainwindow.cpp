@@ -1,6 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "linegraphwidget.h"
+
 #include <QDebug>
 #include <QLayout>
 
@@ -11,9 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QHBoxLayout layout;
-    LineGraphWidget *graph = new LineGraphWidget(0,200);
+
+    graph = new LineGraphWidget(0,200);
     graph->resize(ui->widget->size().width(),ui->widget->size().height());
-    graph->startUpdataTimer(1000);
+    //graph->startUpdataTimer(1000);
     layout.addWidget(graph);
     ui->widget->setLayout(&layout);
 }
@@ -78,4 +79,9 @@ void MainWindow::on_socketTableWidget_2_clicked(const QModelIndex &index)
     int temp = index.row();
     int tid = ui->socketTableWidget_2->itemAt(temp,1)->text().toInt();
     emit(uiToServer(tid));
+}
+
+void MainWindow::test()
+{
+    graph->startUpdataTimer(1000);
 }

@@ -1,6 +1,7 @@
 ﻿#include <QMainWindow>
 #include <QDateTime>
 #include "tableitem.h"
+#include "linegraphwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,7 @@ public:
     void addThread(TableItem *thread);
     void updateThread(int i);
     void deleteThread(int i);
+    void test();
 private slots:
     void on_socketTableWidget_2_clicked(const QModelIndex &index);
 
@@ -28,5 +30,6 @@ signals:
     void uiToServer(int tid);
 private:
     Ui::MainWindow *ui;
+    LineGraphWidget *graph;
 };
 

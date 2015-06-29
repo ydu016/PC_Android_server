@@ -16,6 +16,7 @@ LineGraphWidget::LineGraphWidget(int mix, int max, QWidget *parent) :
 
 void LineGraphWidget::paintEvent(QPaintEvent *)
 {
+    qDebug() << "akb";
     int i;
     int a,b,c,d;
     Counter = 0;
