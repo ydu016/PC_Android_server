@@ -17,8 +17,29 @@ TcpServer::TcpServer(QObject *parent,int numConnections) :
 TcpServer::~TcpServer()
 {
     emit this->sentDisConnect(-1);
+
+    QMap<int, TcpSocket *>::iterator i1;
+    for (i1 = sockets->begin(); i1 != sockets->end(); i1++){
+        TcpSocket *temp1 = i1.value();
+        delete temp1;
+    }
+    sockets->clear();
     delete sockets;
+
+    QMap<int, Thread *>::iterator i2;
+    for (i2 = threads->begin(); i2 != threads->end(); i2++){
+        Thread *temp2 = i2.value();
+        delete temp2;
+    }
+    threads->clear();
     delete threads;
+
+    if (timer->isActive())
+    {
+        timer->stop();
+    }
+    delete timer;
+
 }
 
 void TcpServer::setMaxPendingConnections(int numConnections)

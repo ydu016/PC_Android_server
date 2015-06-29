@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 #endif
     qDebug() << "???" ;
     TcpServer server;
-    //server.listen(QHostAddress::Any,6666);
+    server.listen(QHostAddress::Any,6666);
 
     //QObject::connect(&w, &MainWindow::sendData, &ser, &TcpServer::sendData);
     QObject::connect(&server, &TcpServer::addSocket, &w, &MainWindow::addSocket);

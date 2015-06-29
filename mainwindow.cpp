@@ -14,9 +14,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     graph = new LineGraphWidget(0,200);
     graph->resize(ui->widget->size().width(),ui->widget->size().height());
-    //graph->startUpdataTimer(1000);
+    graph->startUpdataTimer(1000);
     layout.addWidget(graph);
     ui->widget->setLayout(&layout);
+
+    ui->socketTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->threadTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->socketTableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->socketTableWidget_2->horizontalHeader()->setStretchLastSection(true);
+    //ui->socketTableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 }
 
 MainWindow::~MainWindow()
@@ -33,10 +41,11 @@ void MainWindow::addSocket(TableItem *item)
     ui->socketTableWidget->setItem(ui->socketTableWidget->rowCount()-1,1,new QTableWidgetItem(item->getState()));
 
 
-    /**/
+    /**
     ui->socketTableWidget_2->insertRow(ui->socketTableWidget_2->rowCount());
     ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,0,new QTableWidgetItem(QString::number(item->getUid())));
     ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,1,new QTableWidgetItem(item->getState()));
+    **/
 
 }
 
@@ -67,7 +76,6 @@ void MainWindow::updateThread(int i)
     ui->threadTableWidget->item(i,1)->setText("finished");
 }
 
-
 void MainWindow::deleteThread(int i)
 {
     ui->threadTableWidget->removeRow(i);
@@ -83,5 +91,5 @@ void MainWindow::on_socketTableWidget_2_clicked(const QModelIndex &index)
 
 void MainWindow::test()
 {
-    graph->startUpdataTimer(1000);
+    qDebug() << "test";
 }
