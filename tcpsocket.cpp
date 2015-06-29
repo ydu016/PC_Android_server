@@ -9,6 +9,7 @@ TcpSocket::TcpSocket(qintptr socketDescriptor, QObject *parent) : //构造函数
     this->setSocketDescriptor(socketDescriptor);
     connect(this,&TcpSocket::readyRead,this,&TcpSocket::handlereadyRead);
     connect(this,&TcpSocket::readyWrite,this,&TcpSocket::handlereadyWrite);
+    connect(this,&TcpSocket::checkAlive,this,&TcpSocket::handleCheckAlive);
     connect(this,&TcpSocket::disconnected,this,&TcpSocket::handleDisconnected);
 }
 
@@ -16,7 +17,7 @@ TcpSocket::~TcpSocket()
 {
 }
 
-void TcpSocket::sendData(QByteArray data)
+void TcpSocket::doSendData(QByteArray data)
 {
     qDebug() <<"hear";
     emit readyWrite(data, this->socketID);
@@ -45,20 +46,6 @@ void TcpSocket::handlereadyWrite(const QByteArray &data, const int id)
     }
 }
 
-void TcpSocket::disConTcp(int i)
-{
-    if (i == socketID)
-    {
-        this->disconnectFromHost();
-    }
-    else if (i == -1) //-1为全部断开
-    {
-        //disconnect(dis); //先断开连接的信号槽，防止二次析构//????
-        this->disconnectFromHost();
-        this->deleteLater();
-    }
-}
-
 void TcpSocket::handlereadyRead()
 {
     auto data = handleData(this->readAll(),this->peerAddress().toString(),this->peerPort());
@@ -71,6 +58,20 @@ void TcpSocket::handleDisconnected()
     emit messageFromSocket("Socketed is disconnected. Prepare to delete socket.");
     emit socketDisconnected(socketID,this->peerAddress().toString(),this->peerPort(),QThread::currentThread());//发送断开连接的用户信息
     this->deleteLater();
+}
+
+void TcpSocket::doCheckAlive(int second)
+{
+    emit checkAlive(second);
+}
+
+void TcpSocket::handleCheckAlive(int second)
+{
+    if(!this->waitForReadyRead(second))
+    {
+        emit messageFromSocket("Socketed timeout.");
+        this->disconnectFromHost();
+    }
 }
 
 QByteArray TcpSocket::handleData(QByteArray data, const QString &ip, qint16 port)

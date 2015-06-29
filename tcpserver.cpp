@@ -7,6 +7,10 @@ TcpServer::TcpServer(QObject *parent,int numConnections) :
      threads = new QMap<int,Thread *>;
      socketList = new QList<TableItem*>;
      threadList = new QList<TableItem*>;
+     timer = new QTimer();
+     connect(timer,&QTimer::timeout,this, &TcpServer::checkSocketAlive);
+     timer->start(5000);
+
      setMaxPendingConnections(numConnections);
 }
 
@@ -38,8 +42,6 @@ void TcpServer::incomingConnection(qintptr socketDescriptor) //多线程必须�
 
     QString ip =  socket->peerAddress().toString();
     qint16 port = socket->peerPort();
-
-    connect(this,&TcpServer::sentDisConnect,socket,&TcpSocket::disConTcp);//断开信号 主动
 
     connect(socket,&TcpSocket::messageFromSocket,this, &TcpServer::messageReceived);
     connect(thread,&Thread::messageFromThread,this, &TcpServer::messageReceived);
@@ -133,24 +135,26 @@ void TcpServer::handleThreadDestroyed()
     qDebug() << "one thread is destoryed";
 }
 
-
-void TcpServer::sendData()
-{
-    TcpSocket *temp = sockets->first();
-    temp->sendData("akb444444444444444444444444444444444444444444444444444444444448");
-}
-
 void TcpServer::clear()
 {
     emit this->sentDisConnect(-1);
     sockets->clear();
 }
 
+void TcpServer::checkSocketAlive()
+{
+    qDebug() << "i am checking";
+    QMap<int, TcpSocket *>::iterator i;
+    for (i = sockets->begin(); i != sockets->end(); i++){
+        TcpSocket *temp = i.value();
+        temp->doCheckAlive(3000);
+    }
+}
+
 /**/
 void TcpServer::uiToServer(int tid)
 {
-    //TcpSocket *temp = sockets->value(tid);
-    TcpSocket *temp = sockets->first();
+    TcpSocket *temp = sockets->value(tid);
     qDebug() << "find tcp";
-    temp->sendData("nutrition facts");
+    temp->doSendData("nutrition facts");
 }

@@ -1,5 +1,6 @@
 ﻿#include <QTcpServer>
 #include <QHash>
+#include <QTimer>
 #include "tcpsocket.h"
 #include "thread.h"
 #include "tableitem.h"
@@ -14,8 +15,6 @@ public:
     ~TcpServer();
 
     void setMaxPendingConnections(int numConnections);//重写设置最大连接数函数
-    void sendData();
-    //void sentData(const QByteArray &,const int);//向scoket发送消息
 
 signals:
     void addSocket(TableItem *item);
@@ -31,8 +30,6 @@ signals:
 
 public:
     void clear(); //断开所有连接，线程计数器请0
-
-
     /**/
     void uiToServer(int tid);
 
@@ -42,8 +39,8 @@ protected slots:
     void handleSocketDestroyed();
     void handleThreadQuitted(int handle);
     void handleThreadDestroyed();
+    void checkSocketAlive();
     void messageReceived(QString message);
-
 
 
 protected:
@@ -53,6 +50,7 @@ private:
     QMap<int, Thread* > * threads;
     QList<TableItem*> *socketList;
     QList<TableItem*> *threadList;
+    QTimer *timer;
     int maxConnections;
 
 };
