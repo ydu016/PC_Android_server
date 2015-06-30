@@ -26,6 +26,8 @@ public:
 private slots:
     void on_socketTableWidget_2_clicked(const QModelIndex &index);
 
+    void on_pushButton_clicked();
+
 signals:
     void uiToServer(int tid);
 private:

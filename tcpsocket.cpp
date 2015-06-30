@@ -10,6 +10,7 @@ TcpSocket::TcpSocket(qintptr socketDescriptor, QObject *parent) : //构造函数
     connect(this,&TcpSocket::readyRead,this,&TcpSocket::handlereadyRead);
     connect(this,&TcpSocket::readyWrite,this,&TcpSocket::handlereadyWrite);
     connect(this,&TcpSocket::checkAlive,this,&TcpSocket::handleCheckAlive);
+    connect(this,&TcpSocket::sendDisconnect, this, &TcpSocket::handleDisconnect);
     connect(this,&TcpSocket::disconnected,this,&TcpSocket::handleDisconnected);
 }
 
@@ -63,6 +64,15 @@ void TcpSocket::handleDisconnected()
 void TcpSocket::doCheckAlive(int second)
 {
     emit checkAlive(second);
+}
+
+void TcpSocket::doDisconnect()
+{
+    emit sendDisconnect();
+}
+
+void TcpSocket::handleDisconnect(){
+    this->disconnectFromHost();
 }
 
 void TcpSocket::handleCheckAlive(int second)

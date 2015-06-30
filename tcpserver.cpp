@@ -9,37 +9,17 @@ TcpServer::TcpServer(QObject *parent,int numConnections) :
      threadList = new QList<TableItem*>;
      timer = new QTimer();
      connect(timer,&QTimer::timeout,this, &TcpServer::checkSocketAlive);
-     timer->start(5000);
+     //timer->start(10000);
 
      setMaxPendingConnections(numConnections);
 }
 
 TcpServer::~TcpServer()
-{
-    emit this->sentDisConnect(-1);
-
-    QMap<int, TcpSocket *>::iterator i1;
-    for (i1 = sockets->begin(); i1 != sockets->end(); i1++){
-        TcpSocket *temp1 = i1.value();
-        delete temp1;
+{    
+    for (QMap<int, TcpSocket *>::iterator i = sockets->begin(); i != sockets->end(); i++){
+        TcpSocket *temp = i.value();
+        temp->doDisconnect();
     }
-    sockets->clear();
-    delete sockets;
-
-    QMap<int, Thread *>::iterator i2;
-    for (i2 = threads->begin(); i2 != threads->end(); i2++){
-        Thread *temp2 = i2.value();
-        delete temp2;
-    }
-    threads->clear();
-    delete threads;
-
-    if (timer->isActive())
-    {
-        timer->stop();
-    }
-    delete timer;
-
 }
 
 void TcpServer::setMaxPendingConnections(int numConnections)
@@ -168,7 +148,7 @@ void TcpServer::checkSocketAlive()
     QMap<int, TcpSocket *>::iterator i;
     for (i = sockets->begin(); i != sockets->end(); i++){
         TcpSocket *temp = i.value();
-        temp->doCheckAlive(3000);
+        temp->doCheckAlive(9000);
     }
 }
 

@@ -41,11 +41,11 @@ void MainWindow::addSocket(TableItem *item)
     ui->socketTableWidget->setItem(ui->socketTableWidget->rowCount()-1,1,new QTableWidgetItem(item->getState()));
 
 
-    /**
+
     ui->socketTableWidget_2->insertRow(ui->socketTableWidget_2->rowCount());
     ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,0,new QTableWidgetItem(QString::number(item->getUid())));
     ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,1,new QTableWidgetItem(item->getState()));
-    **/
+
 
 }
 
@@ -85,11 +85,27 @@ void MainWindow::deleteThread(int i)
 void MainWindow::on_socketTableWidget_2_clicked(const QModelIndex &index)
 {
     int temp = index.row();
-    int tid = ui->socketTableWidget_2->itemAt(temp,1)->text().toInt();
-    emit(uiToServer(tid));
+    int tid = ui->socketTableWidget_2->itemAt(0,temp)->text().toInt();
+    qDebug() << temp << tid;
 }
 
 void MainWindow::test()
 {
     qDebug() << "test";
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    /**
+    QList<QTableWidgetItem *> list = ui->socketTableWidget_2->selectedItems();
+    for(int i = 0; i< list.length(); i++)
+    {
+        //qDebug() << list.at(i)->text().toInt();
+        //qDebug() << ui->socketTableWidget_2->itemAt(list.at(i)->row(),1)->text().toInt();
+    }
+**/
+    //qDebug() << ui->socketTableWidget_2->rowCount();
+    //qDebug() << ui->socketTableWidget_2->item(0,0)->text().toInt();
+    //qDebug() << ui->socketTableWidget_2->item(1,0)->text().toInt();
+    //emit(uiToServer(tid));
 }
