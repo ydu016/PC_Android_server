@@ -21,9 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->socketTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->threadTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    ui->socketTableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->socketTableWidget_2->horizontalHeader()->setStretchLastSection(true);
-    //ui->socketTableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->clientTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->clientTableWidget->horizontalHeader()->setStretchLastSection(true);
 
 }
 
@@ -42,9 +41,9 @@ void MainWindow::addSocket(TableItem *item)
 
 
 
-    ui->socketTableWidget_2->insertRow(ui->socketTableWidget_2->rowCount());
-    ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,0,new QTableWidgetItem(QString::number(item->getUid())));
-    ui->socketTableWidget_2->setItem(ui->socketTableWidget_2->rowCount()-1,1,new QTableWidgetItem(item->getState()));
+    ui->clientTableWidget->insertRow(ui->clientTableWidget->rowCount());
+    ui->clientTableWidget->setItem(ui->clientTableWidget->rowCount()-1,0,new QTableWidgetItem(QString::number(item->getUid())));
+    ui->clientTableWidget->setItem(ui->clientTableWidget->rowCount()-1,1,new QTableWidgetItem(item->getState()));
 
 
 }
@@ -82,11 +81,9 @@ void MainWindow::deleteThread(int i)
 }
 
 /**/
-void MainWindow::on_socketTableWidget_2_clicked(const QModelIndex &index)
+void MainWindow::on_userTableWidget_clicked(const QModelIndex &index)
 {
-    int temp = index.row();
-    int tid = ui->socketTableWidget_2->itemAt(0,temp)->text().toInt();
-    qDebug() << temp << tid;
+
 }
 
 void MainWindow::test()
@@ -94,18 +91,18 @@ void MainWindow::test()
     qDebug() << "test";
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_sendButton_clicked()
 {
-    /**
-    QList<QTableWidgetItem *> list = ui->socketTableWidget_2->selectedItems();
+    qDebug() << "send";
+    QSet<int> set;
+    QList<QTableWidgetItem *> list = ui->clientTableWidget->selectedItems();
     for(int i = 0; i< list.length(); i++)
     {
-        //qDebug() << list.at(i)->text().toInt();
-        //qDebug() << ui->socketTableWidget_2->itemAt(list.at(i)->row(),1)->text().toInt();
+        set.insert(ui->clientTableWidget->item(list.at(i)->row(),0)->text().toInt());
     }
-**/
-    //qDebug() << ui->socketTableWidget_2->rowCount();
-    //qDebug() << ui->socketTableWidget_2->item(0,0)->text().toInt();
-    //qDebug() << ui->socketTableWidget_2->item(1,0)->text().toInt();
-    //emit(uiToServer(tid));
+
+    for (QSet<int>::iterator i = set.begin(); i != set.end(); i++)
+    {
+        emit (uiToServer(*i));
+    }
 }

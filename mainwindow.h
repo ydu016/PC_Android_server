@@ -24,9 +24,9 @@ public:
     void deleteThread(int i);
     void test();
 private slots:
-    void on_socketTableWidget_2_clicked(const QModelIndex &index);
+    void on_userTableWidget_clicked(const QModelIndex &index);
 
-    void on_pushButton_clicked();
+    void on_sendButton_clicked();
 
 signals:
     void uiToServer(int tid);

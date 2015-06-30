@@ -30,13 +30,13 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
-    <widget class="QWidget" name="tab_1">
+    <widget class="QWidget" name="userTab">
      <attribute name="title">
-      <string>User_Monitoring</string>
+      <string>Client_Monitoring</string>
      </attribute>
-     <widget class="QTableWidget" name="socketTableWidget_2">
+     <widget class="QTableWidget" name="clientTableWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -79,7 +79,7 @@
        </property>
       </column>
      </widget>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="clientGruop">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -101,7 +101,7 @@
       <property name="flat">
        <bool>false</bool>
       </property>
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextEdit" name="clientMessage">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -112,7 +112,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="serverGroup">
       <property name="geometry">
        <rect>
         <x>470</x>
@@ -129,7 +129,7 @@
       <property name="title">
        <string>Message From Server</string>
       </property>
-      <widget class="QTextEdit" name="textEdit_2">
+      <widget class="QTextEdit" name="serverMessage">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -139,7 +139,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="sendButton">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -161,7 +161,7 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="backendTab">
      <attribute name="title">
       <string>Backend_Monitoring</string>
      </attribute>

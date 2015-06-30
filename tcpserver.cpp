@@ -146,7 +146,8 @@ void TcpServer::checkSocketAlive()
 {
     qDebug() << "i am checking";
     QMap<int, TcpSocket *>::iterator i;
-    for (i = sockets->begin(); i != sockets->end(); i++){
+    for (i = sockets->begin(); i != sockets->end(); i++)
+    {
         TcpSocket *temp = i.value();
         temp->doCheckAlive(9000);
     }
